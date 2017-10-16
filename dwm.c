@@ -673,12 +673,14 @@ configurenotify(XEvent *e)
 		sw = ev->width;
 		sh = ev->height;
 		if (updategeom() || dirty) {
-			drw_resize(drw, sw, bh);
-			updatebars();
-			resizebarwin(m);
-			focus(NULL);
-			arrange(NULL);
-		}
+            for (m = mons; m; m = m->next);
+            if (m)
+                resizebarwin(m);
+            drw_resize(drw, sw, bh);
+            updatebars();
+            focus(NULL);
+            arrange(NULL);
+        }
 	}
 }
 
@@ -1922,7 +1924,7 @@ tagmon(const Arg *arg)
 	sendmon(selmon->sel, dirtomon(arg->i));
 }
 
-htile(Monitor *m) {
+void htile(Monitor *m) {
 	unsigned int i, n, w, mh, mx, tx;
 	Client *c;
 
