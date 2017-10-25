@@ -31,7 +31,6 @@ static void x_adjtag(int n, int all) {
         int seltag = 0;
         Arg arg;
 
-        Monitor *m = selmon;
         Client *c;
         int occ = 0;
 
@@ -39,12 +38,11 @@ static void x_adjtag(int n, int all) {
         if (all == 1){
             occ=0;
         } else {
-            for (c = m->clients; c; c = c->next) {
+            for (c = selmon->clients; c; c = c->next) {
                 occ |= c->tags;
             }
+            if ( all == 0 && occ == 0 ) return;
         }
-
-
 
         /*
          *     * Check first tag currently selected.  If 
