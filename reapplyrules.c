@@ -1,13 +1,24 @@
 void
+cyclemon(Monitor *mon)
+{
+    Monitor *m;
+
+    if (mon == mons)
+        mons = mons->next;
+    else {
+        for (m = mons; m && m->next != mon; m = m->next);
+        m->next = mon->next;
+    }
+}
+
+
+void
 reapplyrules(const Arg *arg) {
     Monitor *m;
-    size_t i;
 
     for (m = mons; m; m = m->next)
-        while (m->stack)
-            unmanage(m->stack, 0);
-    while (mons)
-        cleanupmon(mons);
+        while (mons)
+            cyclemon(mons);
 
     setup();
     scan();
