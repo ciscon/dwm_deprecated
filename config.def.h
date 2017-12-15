@@ -6,7 +6,7 @@ static const char *fonts[] = {
 };
 static const char dmenufont[]       = "monospace:size=11";
 static const char normbordercolor[] = "#444444";
-static const char normbgcolor[]     = "#383838";
+static const char normbgcolor[]     = "#2f3136";
 static const char normfgcolor[]     = "#bbbbbb";
 static const char selbordercolor[]  = "#7faabb";
 static const char selbgcolor[]      = "#005577";
