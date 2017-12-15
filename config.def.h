@@ -6,18 +6,17 @@ static const char *fonts[] = {
 };
 static const char dmenufont[]       = "monospace:size=11";
 static const char normbordercolor[] = "#444444";
-static const char normbgcolor[]     = "#222222";
+static const char normbgcolor[]     = "#383838";
 static const char normfgcolor[]     = "#bbbbbb";
-static const char selbordercolor[]  = "#ff0000";
-//static const char selbordercolor[]  = "#005577";
+static const char selbordercolor[]  = "#7faabb";
 static const char selbgcolor[]      = "#005577";
 static const char selfgcolor[]      = "#eeeeee";
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, 0: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
-static const int gappx              = 6;        /* gapsize */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const int gappx              = 3;        /* gapsize */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
@@ -32,7 +31,7 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-    { "Thunderbird",  NULL,       NULL,       1,       0,           0},
+    { "Thunderbird",  NULL,       NULL,       1,       0,           1},
     { "discord",  NULL,       NULL,       1<<6,       0,           -1},
     { "Hexchat",  NULL,       NULL,      1<<7,       0,           -1},
     { "Deadbeef",  NULL,       NULL,       1<<8,       0,           -1},
