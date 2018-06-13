@@ -270,6 +270,7 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void setxclass(Display *dpy, Window win, char *name);
 
 /* variables */
 static Systray *systray = NULL;
@@ -839,6 +840,7 @@ drawbar(Monitor *m)
 
 	resizebarwin(m);
 	for (c = m->clients; c; c = c->next) {
+
 		occ |= c->tags;
 		if (c->isurgent)
 			urg |= c->tags;
@@ -882,6 +884,9 @@ drawbar(Monitor *m)
 		}
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
+
+    setxclass(dpy,m->barwin,"dwmbar");
+
 }
 
 void
@@ -2356,6 +2361,8 @@ updatesystrayiconstate(Client *i, XPropertyEvent *ev) {
 			!(flags = getatomprop(i, xatom[XembedInfo])))
 		return;
 
+    setxclass(dpy,i->win,"dwmtray");
+
 	if (flags & XEMBED_MAPPED && !i->tags) {
 		i->tags = 1;
 		code = XEMBED_WINDOW_ACTIVATE;
@@ -2409,6 +2416,8 @@ updatesystray(void) {
 			systray = NULL;
 			return;
 		}
+
+
 	}
 	for (w = 0, i = systray->icons; i; i = i->next) {
 		/* make sure the background color stays the same */
@@ -2589,6 +2598,23 @@ zoom(const Arg *arg)
 		if (!c || !(c = nexttiled(c->next)))
 			return;
 	pop(c);
+}
+
+void
+setxclass(Display *dpy, Window win, char *name)
+{
+
+    XClassHint* classHint;
+
+    XStoreName(dpy, win, name);
+    classHint = XAllocClassHint();
+    if (classHint) {
+        classHint->res_name = name;
+        classHint->res_class = "dwm";
+    }
+    XSetClassHint(dpy, win, classHint);
+    XFree(classHint);
+
 }
 
 int
