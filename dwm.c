@@ -884,9 +884,6 @@ drawbar(Monitor *m)
 		}
 	}
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
-
-    setxclass(dpy,m->barwin,"dwmbar");
-
 }
 
 void
@@ -2142,6 +2139,7 @@ updatebars(void)
 		if (showsystray && m == systraytomon(m))
 			XMapRaised(dpy, systray->win);
 		XMapRaised(dpy, m->barwin);
+        setxclass(dpy, m->barwin, "dwmbar");
 	}
 }
 
@@ -2349,6 +2347,7 @@ updatesystrayicongeom(Client *i, int w, int h) {
 				i->w = (int) ((float)bh * ((float)i->w / (float)i->h));
 			i->h = bh;
 		}
+        setxclass(dpy, i->win, "dwmtray");
 	}
 }
 
@@ -2360,8 +2359,6 @@ updatesystrayiconstate(Client *i, XPropertyEvent *ev) {
 	if (!showsystray || !i || ev->atom != xatom[XembedInfo] ||
 			!(flags = getatomprop(i, xatom[XembedInfo])))
 		return;
-
-    setxclass(dpy,i->win,"dwmtray");
 
 	if (flags & XEMBED_MAPPED && !i->tags) {
 		i->tags = 1;
@@ -2603,7 +2600,6 @@ zoom(const Arg *arg)
 void
 setxclass(Display *dpy, Window win, char *name)
 {
-
     XClassHint* classHint;
 
     XStoreName(dpy, win, name);
@@ -2614,7 +2610,6 @@ setxclass(Display *dpy, Window win, char *name)
     }
     XSetClassHint(dpy, win, classHint);
     XFree(classHint);
-
 }
 
 int
