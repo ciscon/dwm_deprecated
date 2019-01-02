@@ -2282,6 +2282,8 @@ updatestatus(void)
 void
 updatesystrayicongeom(Client *i, int w, int h)
 {
+	XClassHint ch = {"dwm", "dwm"};
+
 	if (i) {
 		i->h = bh;
 		if (w == h)
@@ -2299,6 +2301,7 @@ updatesystrayicongeom(Client *i, int w, int h)
 				i->w = (int) ((float)bh * ((float)i->w / (float)i->h));
 			i->h = bh;
 		}
+        XSetClassHint(dpy, i->win, &ch);
 	}
 }
 
