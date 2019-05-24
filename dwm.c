@@ -1127,7 +1127,11 @@ grabkeys(void)
 void
 incnmaster(const Arg *arg)
 {
-	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
+	if (arg->i == 0) {
+		selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = nmaster;
+	} else {
+		selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag] = MAX(selmon->nmaster + arg->i, 0);
+	}
 	arrange(selmon);
 }
 
