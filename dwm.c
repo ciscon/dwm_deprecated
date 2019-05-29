@@ -1764,14 +1764,19 @@ setlayout(const Arg *arg)
 }
 
 /* arg > 1.0 will set mfact absolutely */
-void
+	void
 setmfact(const Arg *arg)
 {
 	float f;
 
 	if (!arg || !selmon->lt[selmon->sellt]->arrange)
 		return;
-	f = arg->f < 1.0 ? arg->f + selmon->mfact : arg->f - 1.0;
+	f = arg->f;
+	if (f != 0) {
+		f = f < 1.0 ? f + selmon->mfact : f - 1.0;
+	} else {
+		f = .5;
+	}
 	if (f < 0.1 || f > 0.9)
 		return;
 	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag] = f;

@@ -103,7 +103,7 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
     { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
     { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-    { MODKEY,                       XK_r,      resettag,       {} },
+    { MODKEY,                       XK_r,      resettag,       {0} },
     { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
     { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
     { MODKEY|ShiftMask,             XK_h,      x_prevtag,      {0} },
@@ -159,11 +159,7 @@ static Button buttons[] = {
 
 void
 resettag() {
-    Arg *arg;
-    arg->i=0;
-    arg->v=&layouts[0];
-    arg->f=mfact;
-    incnmaster(arg);
-    setlayout(arg);
-    setmfact(arg);
+    incnmaster(&(Arg){.i=0});
+    setlayout(&(Arg){.v = &layouts[0]});
+    setmfact(&(Arg){.f=0});
 }
