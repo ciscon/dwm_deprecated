@@ -52,7 +52,7 @@ static const Layout layouts[] = {
     { "[F]",      NULL },    /* no layout function means floating behavior */
     { "[M]",      monocle },
     { "[B]",      bstack },
-//    { "[BH]",      bstackhoriz },
+    //    { "[BH]",      bstackhoriz },
     { NULL,       NULL },
 };
 
@@ -79,6 +79,9 @@ static const char *xtrlock[]  = { "xtrlock", NULL };
 static const char *screenshotcmd[]  = { "screenshot", NULL };
 static const char *updatexrandr[]  = { "external_on", NULL };
 
+/* custom functions declarations */
+static void resettag();
+
 #include "tagmovement.c"
 #include "movestack.c"
 
@@ -93,14 +96,14 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_z,      spawn,          {.v = xtrlock } },
     { MODKEY|ShiftMask,             XK_r,      spawn,          {.v = updatexrandr } },
     { MODKEY,                       XK_s,      spawn,          {.v = screenshotcmd} },
-//    { MODKEY,                       XK_b,      togglebar,      {0} },
+    //    { MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
     { MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
     { MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
     { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
     { MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
-    { MODKEY,                       XK_r,      incnmaster,     {.i = 0 } },
+    { MODKEY,                       XK_r,      resettag,       {} },
     { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
     { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
     { MODKEY|ShiftMask,             XK_h,      x_prevtag,      {0} },
@@ -115,10 +118,10 @@ static Key keys[] = {
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
     { MODKEY,                       XK_b,      setlayout,      {.v = &layouts[3]} },
     { MODKEY|ShiftMask,				XK_b,      setlayout,      {.v = &layouts[4]} },
-//    { MODKEY,                       XK_space,  setlayout,      {0} },
+    //    { MODKEY,                       XK_space,  setlayout,      {0} },
     { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
     { MODKEY,                       XK_space,  cyclelayout,    {.i = +1 } },
-//    { MODKEY|ShiftMask,             XK_space,  cyclelayout,    {.i = -1 } },
+    //    { MODKEY|ShiftMask,             XK_space,  cyclelayout,    {.i = -1 } },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
     { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -154,3 +157,13 @@ static Button buttons[] = {
     { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
+void
+resettag() {
+    Arg *arg;
+    arg->i=0;
+    arg->v=&layouts[0];
+    arg->f=mfact;
+    incnmaster(arg);
+    setlayout(arg);
+    setmfact(arg);
+}
