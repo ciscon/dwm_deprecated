@@ -25,7 +25,7 @@ static const char *colors[][3]      = {
 static const int gappx              = 3;        /* gapsize */
 
 /* tagging */
-static const char *tags[] = { "𝟭", "𝟮", "𝟯", "𝟰", "𝟱", "𝟲", "𝟳", "𝟴", "𝟵" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -46,12 +46,15 @@ static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
+//3 column layout
+#include "tcl.c"
 static const Layout layouts[] = {
     /* symbol     arrange function */
     { "[V]",      tile },    /* first entry is default */
     { "[F]",      NULL },    /* no layout function means floating behavior */
     { "[M]",      monocle },
     { "[B]",      bstack },
+    { "[V3]",      tcl },    /* first entry is default */
     //    { "[BH]",      bstackhoriz },
     { NULL,       NULL },
 };
@@ -117,11 +120,11 @@ static Key keys[] = {
     { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
     { MODKEY,                       XK_b,      setlayout,      {.v = &layouts[3]} },
-    { MODKEY|ShiftMask,				XK_b,      setlayout,      {.v = &layouts[4]} },
+    { MODKEY|ShiftMask,				XK_t,      setlayout,      {.v = &layouts[4]} },
     //    { MODKEY,                       XK_space,  setlayout,      {0} },
     { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
     { MODKEY,                       XK_space,  cyclelayout,    {.i = +1 } },
-    //    { MODKEY|ShiftMask,             XK_space,  cyclelayout,    {.i = -1 } },
+    { MODKEY|ShiftMask,             XK_space,  cyclelayout,    {.i = -1 } },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
     { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
