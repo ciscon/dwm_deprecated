@@ -34,7 +34,7 @@ static const Rule rules[] = {
      */
     /* class      instance    title       tags mask     isfloating   monitor */
     { "Gimp",     NULL,       NULL,       0,            1,           -1 },
-    { "Thunderbird",  NULL,       NULL,       1,       0,           1},
+    { "thunderbird",  NULL,       NULL,       1,       0,           1},
     { "skype",  NULL,       NULL,       1<<5,       0,           -1},
     { "discord",  NULL,       NULL,       1<<6,       0,           -1},
     { "Hexchat",  NULL,       NULL,      1<<7,       0,           -1},
@@ -47,20 +47,25 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 //3 column layout
-#include "tcl.c"
+//#include "tcl.c"
+
+//gapless grid layout
+#include "gaplessgrid.c"
+
 static const Layout layouts[] = {
     /* symbol     arrange function */
     { "[V]",      tile },    /* first entry is default */
     { "[F]",      NULL },    /* no layout function means floating behavior */
     { "[M]",      monocle },
     { "[B]",      bstack },
-    { "[V3]",      tcl },    /* first entry is default */
+    //{ "[V3]",      tcl },    /* first entry is default */
+    { "###",      gaplessgrid },
     //    { "[BH]",      bstackhoriz },
     { NULL,       NULL },
 };
 
 /* key definitions */
-#define MODKEY Mod4Mask
+#define MODKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
 { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -145,19 +150,22 @@ static Key keys[] = {
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+#include "tilemovemouse.c"
 static Button buttons[] = {
     /* click                event mask      button          function        argument */
     { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
     { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
     { ClkWinTitle,          0,              Button2,        zoom,           {0} },
     { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
-    { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
     { ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
     { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
     { ClkTagBar,            0,              Button1,        view,           {0} },
     { ClkTagBar,            0,              Button3,        toggleview,     {0} },
     { ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
     { ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+    //{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
+    { ClkClientWin,   MODKEY,         Button1,    tilemovemouse,  {0} },
+
 };
 
 void
